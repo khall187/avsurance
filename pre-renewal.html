@@ -347,7 +347,7 @@ function timeline(){
 }
 
 const intro=el('<section class="step"></section>');
-function mins(){return String(Math.max(3,Math.round(SURVEY.questions.length*0.3)));}
+function mins(){return String(Math.max(3,Math.round(SURVEY.questions.length*0.2)));}
 intro.innerHTML='<div class="eyebrow">'+esc(SURVEY.kicker)+'</div>'+(CLIENT?'<p class="for">Prepared for <b>'+esc(CLIENT)+'</b></p>':'')+
   '<h1>'+esc(SURVEY.title)+'</h1><div class="rule"></div><div class="lede">'+SURVEY.intro.map(p=>'<p>'+esc(p.replace('{mins}',mins()))+'</p>').join('')+'</div>';
 if(SURVEY.kind==='pre') intro.appendChild(timeline());
