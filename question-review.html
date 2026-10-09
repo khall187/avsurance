@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Avsurance Team Review: Renewal Survey Questions</title>
+<!-- TEAM REVIEW (Kris, 2026-10-09). Internal page: the team marks every line-of-business question in
+     pre-renewal.html Keep Yes / No with a note, and it posts to the same Formspree form as clients,
+     tagged "TEAM REVIEW". The questions are read live from pre-renewal.html, so this page can never
+     drift from what clients see. Upload it to Netlify next to pre-renewal.html. -->
+<style>
+:root{--red:#C8102E;--red600:#A80D27;--red50:#FBECEE;--ink:#17222A;--body:#272B2F;--meta:#42464A;--slate:#5E6266;--hair:#D5DADC;--pale:#E4E9EA;--bg:#F5F6F7;--navy:#003057;--green:#1E7A34;--green50:#E4EFE7;--sans:"Helvetica Now Text","Helvetica Neue",Helvetica,Arial,sans-serif}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{font-family:var(--sans);color:var(--body);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.45}
+a{color:var(--red)}a:hover{color:var(--red600)}
+.top{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--hair)}
+.top__in{max-width:880px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.logo{height:30px;width:auto;display:block}
+.count{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);white-space:nowrap}.count b{color:var(--red)}
+.prog{height:3px;background:var(--pale)}.prog i{display:block;height:100%;width:0;background:var(--red);transition:width .3s}
+.wrap{max-width:880px;margin:0 auto;padding:28px 20px 120px}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red)}
+h1{font-size:clamp(26px,5vw,38px);line-height:1.08;letter-spacing:-.01em;font-weight:800;color:var(--ink);margin:8px 0 0}
+.rule{width:56px;height:4px;background:var(--red);margin:16px 0}
+.lede{font-size:15px;max-width:66ch;margin:0 0 8px;text-wrap:pretty}
+.who{display:flex;flex-direction:column;gap:6px;margin:18px 0 6px;max-width:340px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--meta)}
+input[type=text],textarea{font:inherit;font-size:14px;color:var(--ink);background:#fff;border:1px solid var(--hair);border-radius:7px;padding:8px 10px;width:100%}
+input[type=text]:focus,textarea:focus{outline:none;border-color:var(--red)}
+.who.bad input{border-color:var(--red);background:var(--red50)}
+.sec{margin:34px 0 8px;padding-top:10px;border-top:4px solid var(--ink);font-size:15px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.sec small{font-size:12px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--meta);display:block;margin-top:2px}
+.q{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:4px 12px;padding:12px 0;border-bottom:1px solid var(--hair)}
+.q__n{font-size:12px;font-weight:700;color:var(--slate);padding-top:2px}
+.q__t{font-size:14.5px;font-weight:700;color:var(--ink);text-wrap:pretty}
+.q__m{font-size:12px;color:var(--meta);margin-top:3px}
+.q__m span+span::before{content:" \00b7  "}
+.tag{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:1px 6px;border-radius:3px;background:var(--pale);color:var(--meta);margin-right:4px}
+.tag.c{background:var(--navy);color:#fff}
+.keep{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.keep__l{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate)}
+.seg{display:inline-flex;border:1.5px solid var(--hair);border-radius:7px;overflow:hidden}
+.seg button{font:inherit;font-size:13px;font-weight:700;min-width:54px;min-height:36px;padding:0 12px;border:0;background:#fff;color:var(--meta);cursor:pointer}
+.seg button+button{border-left:1.5px solid var(--hair)}
+.seg button.y{background:var(--green);color:#fff}.seg button.n{background:var(--red);color:#fff}
+.q textarea{grid-column:2/4;min-height:36px;height:36px;resize:vertical;font-size:13px}
+.end{margin-top:30px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.btn{font:inherit;font-size:15px;font-weight:700;padding:13px 26px;border-radius:8px;border:0;background:var(--red);color:#fff;cursor:pointer}
+.btn:disabled{opacity:.5;cursor:default}
+.msg{font-size:13px;color:var(--meta)}.msg.err{color:var(--red);font-weight:700}
+.done{background:#fff;border:1px solid var(--hair);border-radius:10px;padding:26px}
+.done h2{margin:0;font-size:24px;color:var(--ink)}
+@media(max-width:600px){.q{grid-template-columns:28px minmax(0,1fr)}.keep{grid-column:2;align-items:flex-start;flex-direction:row;gap:10px;margin-top:6px}.q textarea{grid-column:2}}
+</style>
+</head>
+<body>
+<header class="top"><div class="top__in"><img class="logo" src="avsurance-logo.png" alt="Avsurance"><div class="count" id="count">Loading</div></div><div class="prog"><i id="bar"></i></div></header>
+<main class="wrap" id="main">
+<div class="eyebrow">Team Review &middot; Internal Only</div>
+<h1>Which renewal survey questions should we keep?</h1>
+<div class="rule"></div>
+<p class="lede">These are the line-of-business questions clients see in the pre-renewal survey. For each one, tap <b>Yes</b> to keep it or <b>No</b> to drop it, and use the note box for anything else, like &ldquo;reword to&hellip;&rdquo;.</p>
+<p class="lede"><span class="tag c">Core</span> questions always show. <span class="tag">Extended</span> questions are dropped when 3 or more lines renew at once. Your answers save on this device as you go.</p>
+<label class="who" id="who">Your name<input type="text" id="name" placeholder="e.g. Ian" autocomplete="name"></label>
+<div id="list"></div>
+<div class="end"><button class="btn" id="send" type="button" disabled>Submit Review</button><div class="msg" id="msg"></div></div>
+</main>
+<script>
+(function(){
+  var KEY='avs-question-review', FALLBACK='https://formspree.io/f/xkjgaeao', ENDPOINT=FALLBACK, QS=[], A={};
+  try{ A=JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){ A={}; }
+  var $=function(id){ return document.getElementById(id); };
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(A)); }catch(e){} }
+  function choices(q){
+    var m=[];
+    if(q.type==='yesno') m.push('Yes / No');
+    else if(q.type==='open') m.push('Written answer');
+    else if(q.type==='opts') m.push((q.options||[]).join(' / '));
+    else if(q.type==='multi') m.push('Pick any: '+(q.options||[]).join(', '));
+    else if(q.type==='compound') (q.parts||[]).forEach(function(p){ m.push(p.l+(p.o?': '+p.o.join(' / '):p.num?' (number)':p.date?' (date)':'')); });
+    if(q.noteLabel) m.push('Note box: '+q.noteLabel);
+    if(q.doc) m.push(q.doc);
+    return m;
+  }
+  function render(d){
+    if(d.SURVEY&&d.SURVEY.endpoint) ENDPOINT=d.SURVEY.endpoint;
+    var codes=Object.keys(d.LOBQ).sort(function(a,b){ return d.LOB_NAMES[a].localeCompare(d.LOB_NAMES[b]); }), h='';
+    codes.forEach(function(c){
+      var qs=d.LOBQ[c], name=d.LOB_NAMES[c];
+      h+='<div class="sec">'+esc(name)+' Questions ('+qs.length+' question'+(qs.length===1?'':'s')+')'+(c==='STOR'?'<small>Uses the same tank questions as Environmental. A client renewing both sees them once.</small>':'')+'</div>';
+      qs.forEach(function(q){
+        var id=c+'-'+q.k, a=A[id]||{};
+        QS.push({id:id,line:name,k:q.k,text:q.text});
+        h+='<div class="q" data-id="'+esc(id)+'"><div class="q__n">'+esc(q.k)+'</div><div><div class="q__t">'+esc(q.text)+'</div><div class="q__m"><span class="tag'+(q.t==='C'?' c':'')+'">'+(q.t==='C'?'Core':'Extended')+'</span>'+choices(q).map(function(x){ return '<span>'+esc(x)+'</span>'; }).join('')+'</div></div>'
+          +'<div class="keep"><span class="keep__l">Keep?</span><div class="seg"><button type="button" data-v="Yes"'+(a.k==='Yes'?' class="y"':'')+'>Yes</button><button type="button" data-v="No"'+(a.k==='No'?' class="n"':'')+'>No</button></div></div>'
+          +'<textarea placeholder="Notes (optional), e.g. reword to\u2026" aria-label="Notes for '+esc(name)+' question '+esc(q.k)+'">'+esc(a.n||'')+'</textarea></div>';
+      });
+    });
+    $('list').innerHTML=h;
+    [].forEach.call(document.querySelectorAll('.q'),function(row){
+      var id=row.getAttribute('data-id');
+      [].forEach.call(row.querySelectorAll('.seg button'),function(b){ b.onclick=function(){
+        var v=b.getAttribute('data-v'); A[id]=A[id]||{}; A[id].k=A[id].k===v?'':v;
+        [].forEach.call(row.querySelectorAll('.seg button'),function(x){ x.className=A[id].k===x.getAttribute('data-v')?(A[id].k==='Yes'?'y':'n'):''; });
+        save(); tally();
+      }; });
+      row.querySelector('textarea').oninput=function(){ A[id]=A[id]||{}; A[id].n=this.value; save(); };
+    });
+    $('name').value=A._name||'';
+    $('name').oninput=function(){ A._name=this.value; $('who').classList.remove('bad'); save(); };
+    $('send').disabled=false; tally();
+  }
+  function tally(){
+    var done=QS.filter(function(q){ return A[q.id]&&A[q.id].k; }).length;
+    $('count').innerHTML='<b>'+done+'</b> of '+QS.length+' answered';
+    $('bar').style.width=(QS.length?done/QS.length*100:0)+'%';
+  }
+  function payload(){
+    var name=(A._name||'').trim(), d={survey:'TEAM REVIEW',_subject:'TEAM REVIEW: survey questions from '+name,reviewer:name,submitted:new Date().toLocaleString()}, keep=0, drop=0, skip=0;
+    QS.forEach(function(q){
+      var a=A[q.id]||{}, k=a.k||'', n=(a.n||'').trim();
+      if(k==='Yes') keep++; else if(k==='No') drop++; else skip++;
+      if(k||n) d[q.line+' '+q.k]=(k==='No'?'DROP':k==='Yes'?'Keep':'No answer')+(n?' | Note: '+n:'')+' | Q: '+q.text;
+    });
+    d.totals='Keep '+keep+' / Drop '+drop+' / No answer '+skip;
+    return d;
+  }
+  $('send').onclick=function(){
+    if(!(A._name||'').trim()){ $('who').classList.add('bad'); window.scrollTo({top:0,behavior:'smooth'}); $('name').focus(); $('msg').className='msg err'; $('msg').textContent='Add your name at the top first.'; return; }
+    var b=this; b.disabled=true; b.textContent='Sending\u2026'; $('msg').className='msg'; $('msg').textContent='';
+    fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload())})
+      .then(function(r){ if(!r.ok) throw new Error('Submit failed ('+r.status+')');
+        try{ localStorage.removeItem(KEY); }catch(e){}
+        $('main').innerHTML='<div class="done"><div class="eyebrow">Sent</div><h2>Thanks, '+esc(A._name.trim())+'. Your review is in.</h2><p class="lede" style="margin-top:10px">Kris will use it to tighten the renewal survey.</p></div>'; window.scrollTo(0,0); })
+      .catch(function(e){ b.disabled=false; b.textContent='Submit Review'; $('msg').className='msg err'; $('msg').textContent=e.message+'. Your answers are saved here, so try again in a minute.'; });
+  };
+  fetch('pre-renewal.html',{cache:'no-store'}).then(function(r){ return r.text(); }).then(function(t){
+    var s=t.indexOf('const SURVEY'), e=t.indexOf('const BASE_Q');
+    if(s<0||e<0) throw new Error('questions not found');
+    render(new Function(t.slice(s,e)+';return {SURVEY:SURVEY,LOB_NAMES:LOB_NAMES,LOBQ:LOBQ};')());
+  }).catch(function(e){ $('count').textContent='Error'; $('list').innerHTML='<p class="msg err">Could not load the questions ('+esc(e.message)+'). Make sure pre-renewal.html is uploaded next to this page.</p>'; });
+})();
+</script>
+</body>
+</html>
