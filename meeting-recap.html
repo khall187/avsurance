@@ -55,6 +55,7 @@ h2{font:700 17px/1.2 "Helvetica Now Display","Helvetica Neue",Helvetica,Arial,sa
 .c2{grid-template-columns:1fr 1fr}.c3{grid-template-columns:1.4fr 1fr 1fr}
 @media (max-width:600px){.c2,.c3{grid-template-columns:1fr}}
 label,.lbl{display:block;font-size:12.5px;font-weight:500;color:var(--muted);margin-bottom:4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .req::after{content:" *";color:var(--red)}
 input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:4px;padding:9px 10px}
 textarea{resize:vertical;min-height:70px}
@@ -68,6 +69,9 @@ input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid v
 .seg button[aria-pressed="true"]{background:var(--red);color:#fff}
 .person{display:grid;grid-template-columns:1.2fr 1fr 1fr 36px;gap:8px;margin-bottom:8px}
 @media (max-width:600px){.person{grid-template-columns:1fr 1fr}.person .x{grid-column:span 2}}
+.need,.needs-head{display:grid;grid-template-columns:1.6fr 1fr 150px 36px;gap:8px;margin-bottom:8px}
+.needs-head{margin-bottom:2px}
+@media (max-width:600px){.needs-head{display:none}.need{grid-template-columns:1fr 1fr}.need input:first-child{grid-column:span 2}}
 .x{border:1px solid var(--line);background:var(--field);color:var(--muted);border-radius:4px;cursor:pointer;font-size:18px}
 .add{background:none;border:0;color:var(--red);font:500 14px "Helvetica Neue",Helvetica,Arial,sans-serif;cursor:pointer;padding:2px 0 12px}
 .epic pre{margin:0 0 6px;background:#14100C;color:#F4F1EC;border-radius:4px;padding:12px 14px;font:13px/1.5 Consolas,"Courier New",monospace;white-space:pre-wrap;word-break:break-word}
@@ -114,7 +118,7 @@ input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid v
   <h2>Visit Details</h2>
   <div class="row c3">
     <div><label class="req" for="client">Client</label><input id="client"></div>
-    <div><label for="base">Location / ICAO</label><input id="base"></div>
+    <div><label for="base">Meeting Location / ICAO</label><input id="base"></div>
     <div><label class="req" for="date">Visit date</label><input id="date" type="date"></div>
   </div>
   <div class="row c2">
@@ -122,10 +126,7 @@ input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid v
     <div><label for="vtype">Visit type</label>
       <select id="vtype"><option value="">Pick one</option><option>First meeting</option><option>Renewal check-in</option><option>Site visit</option><option>Claim follow-up</option><option>Event</option><option>Other</option></select></div>
   </div>
-</section>
-
-<section>
-  <h2>Who you met</h2>
+  <span class="lbl">Who you met</span>
   <div id="people"></div>
   <button class="add" id="addPerson" type="button">+ Add a person</button>
 </section>
@@ -137,21 +138,22 @@ input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid v
 </section>
 
 <section>
-  <h2>Relationship</h2>
-  <span class="lbl">Temperature</span>
-  <div class="seg" id="temp" role="group" aria-label="Relationship temperature"></div>
-  <div class="row"><div><label for="notes">Meeting notes</label><textarea id="notes" rows="9" style="min-height:190px" placeholder="Tone, history, sensitivities. Expansions, new aircraft, leadership changes. Who owns it, how they make money, size, locations. Anything the team would benefit from knowing."></textarea></div></div>
+  <h2>Overall Relationship</h2>
+  <div class="seg" id="temp" role="group" aria-label="Overall relationship"></div>
 </section>
 
 <section>
-  <h2>Next Steps / Watch Out For</h2>
-  <div class="row"><div><label for="watch">Watch items</label><textarea id="watch" placeholder="Gaps, lapses, open issues"></textarea></div></div>
-  <div class="row"><div><label for="opps">Opportunities</label><textarea id="opps" placeholder="Lines they don't have with us, referrals, upcoming projects"></textarea></div></div>
-  <div class="row c3">
-    <div><label for="next">Next step</label><input id="next"></div>
-    <div><label for="owner">Owner</label><input id="owner"></div>
-    <div><label for="due">Due</label><input id="due" type="date"></div>
-  </div>
+  <h2>Developments</h2>
+  <div class="row"><div><label for="pos">Positive Developments</label><textarea id="pos" placeholder="Wins, growth, new aircraft or locations, praise for our service, cross-sell or referral openings"></textarea></div></div>
+  <div class="row"><div><label for="neg">Concerning Developments</label><textarea id="neg" placeholder="Complaints, claims, losses, coverage gaps or lapses, competitor contact, budget pressure, key people leaving"></textarea></div></div>
+  <div class="row"><div><label for="gen">General Information</label><textarea id="gen" placeholder="Neutral updates: ownership or staff changes, upcoming projects, renewal timing, anything that doesn't fit above"></textarea></div></div>
+</section>
+
+<section>
+  <h2>Needed from Team</h2>
+  <div class="needs-head"><span class="lbl">What is needed?</span><span class="lbl">Who does it?</span><span class="lbl">Deadline</span><span></span></div>
+  <div id="needs"></div>
+  <button class="add" id="addNeed" type="button">+ Next Step</button>
 </section>
 
 <section class="epic">
@@ -161,8 +163,8 @@ input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid v
 </section>
 
 <div class="bar">
-  <button class="btn primary" id="send" type="button">Send to the team</button>
-  <button class="btn" id="pdfNow" type="button">Preview 1-pager</button>
+  <button class="btn primary" id="send" type="button">Email to the team</button>
+  <button class="btn" id="pdfNow" type="button">Save as PDF</button>
 </div>
 <div class="msg" id="msg" role="status"></div>
 </div>
@@ -191,7 +193,7 @@ input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid v
   var MAX=500;
   var OPS=[["Airport","APT"],["FBO","FBO"],["Part 135 Charter","135"],["Part 91 Corporate","P91"],["Flight School","SCHOOL"],["Aircraft Sales","SALES"],["Aircraft Management","MGMT"],["Fractional","FRAC"],["MRO / Part 145","MRO"],["Fuel Sales / Tanker","FUEL"],["Ag / Aerial","AG"],["Helicopter","HELI"],["Air Ambulance","AMB"],["Cargo","CARGO"],["Airline","AIRLINE"],["Financial Institution","FIN"],["Drone / UAS","UAS"],["Space","SPACE"]];
   var LOB=[["ACFT","Aircraft Hull & Liability"],["APRO","Aircraft Products Liability"],["AVGL","Aviation General Liability"],["BOND","Bond"],["CAUT","Commercial Auto"],["CUMB","Commercial Umbrella"],["CYBR","Cyber"],["D&O","Directors & Officers"],["EPLI","Employment Practices Liability"],["POLL","Pollution"],["PROP","Property"],["STOR","Storage"],["WKCP","Workers Compensation"]];
-  var TEMPS=["Warm","Neutral","Cool","Unknown"];
+  var TEMPS=["Warming","Neutral","Cooling","Unknown"];
   var ROLES=["Decision maker","Day-to-day","Influencer","Gatekeeper","Other"];
   var $=function(id){return document.getElementById(id)};
 
@@ -212,15 +214,22 @@ input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid v
     d.querySelector(".x").onclick=function(){d.remove();render()};
     $("people").appendChild(d);
   }
+  function addNeed(){
+    var d=document.createElement("div");d.className="need";
+    d.innerHTML='<input aria-label="What is needed?"><input aria-label="Who does it?"><input type="date" aria-label="Deadline"><button class="x" type="button" aria-label="Remove step">&times;</button>';
+    d.querySelector(".x").onclick=function(){d.remove();render()};
+    $("needs").appendChild(d);
+  }
+  function needs(){return Array.prototype.map.call($("needs").children,function(r){var f=r.querySelectorAll("input");return{what:clean(f[0].value),who:clean(f[1].value),date:f[2].value}}).filter(function(n){return n.what})}
   function people(){return Array.prototype.map.call($("people").children,function(r){var f=r.querySelectorAll("input,select");return{name:clean(f[0].value),title:clean(f[1].value),role:f[2].value}}).filter(function(p){return p.name})}
 
   function data(){
     var opsCodes=picked($("ops")).map(function(b){return b.dataset.code});
     var opsNames=picked($("ops")).map(function(b){return b.textContent});
     return{client:clean($("client").value),base:clean($("base").value),date:$("date").value,by:clean($("by").value),vtype:$("vtype").value,
-      opsCodes:opsCodes,opsNames:opsNames,notes:clean($("notes").value),
-      people:people(),temp:temp(),watch:clean($("watch").value),opps:clean($("opps").value),
-      next:clean($("next").value),owner:clean($("owner").value),due:$("due").value};
+      opsCodes:opsCodes,opsNames:opsNames,
+      people:people(),temp:temp(),pos:clean($("pos").value),neg:clean($("neg").value),gen:clean($("gen").value),
+      needs:needs()};
   }
   function epic(d){
     var L=["VISIT DEBRIEF | "+[d8(d.date),d.by].filter(Boolean).join(" | ")];
@@ -230,14 +239,14 @@ input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid v
     var dd=d.people.filter(function(p){return p.role==="Day-to-day"}).map(function(p){return p.name}).join("; ");
     add("DECIDER",dm);add("DAY-TO-DAY",dd);
     add("RELATIONSHIP",d.temp);
-add("NOTES",one(d.notes));add("WATCH",one(d.watch));
-    add("NEXT",[d.next,d.owner,d8(d.due)].filter(Boolean).join(", "));
+add("POSITIVE",one(d.pos));add("CONCERNS",one(d.neg));add("INFO",one(d.gen));
+    add("NEEDED",d.needs.map(function(n){var x=[n.who,d8(n.date)].filter(Boolean).join(", ");return n.what+(x?" ("+x+")":"")}).join("; "));
     var t=L.join("\n");return t;
   }
   function render(){
     var t=epic(data()),n=t.length;
     $("note").textContent=t;
-    $("count").textContent=n>MAX?(n+" / "+MAX+": over, the Epic copy will be trimmed. Shorten Notes or Watch."):(n+" / "+MAX+" characters");
+    $("count").textContent=n>MAX?(n+" / "+MAX+": over, the Epic copy will be trimmed. Shorten the Developments."):(n+" / "+MAX+" characters");
     $("count").className="count"+(n>MAX?" over":"");
   }
   function epicFinal(){var t=epic(data());return t.length>MAX?t.slice(0,MAX-3)+"...":t}
@@ -249,14 +258,15 @@ add("NOTES",one(d.notes));add("WATCH",one(d.watch));
     $("onepager").innerHTML=
       "<div class='top'><div><img src='"+document.querySelector(".logo-light").src+"' alt='Avsurance'><h1>"+esc(d.client||"Client")+"</h1></div>"+
       "<div class='meta'>Visit debrief<br>"+esc([d8(d.date),d.vtype].filter(Boolean).join(", "))+"<br>Relayed by "+esc(d.by)+"</div></div>"+
-      "<h3>At a glance</h3><table>"+rows([["Location",d.base],["Operations",d.opsNames.join(", ")],["Relationship",d.temp]])+"</table>"+
+      "<h3>At a glance</h3><table>"+rows([["Location",d.base],["Operations",d.opsNames.join(", ")],["Overall relationship",d.temp]])+"</table>"+
       "<h3>People</h3>"+ppl+
-      block("Meeting notes",d.notes)+block("Watch items",d.watch)+block("Opportunities",d.opps)+
-      ((d.next||d.owner||d.due)?"<h3>Next step</h3><p>"+esc([d.next,d.owner?"Owner: "+d.owner:"",d.due?"Due: "+d8(d.due):""].filter(Boolean).join(". "))+"</p>":"")+
+      block("Positive developments",d.pos)+block("Concerning developments",d.neg)+block("General information",d.gen)+
+      (d.needs.length?"<h3>Needed from team</h3><table><tr><th>What is needed</th><th>Who does it</th><th>Deadline</th></tr>"+d.needs.map(function(n){return"<tr><td>"+esc(n.what)+"</td><td>"+esc(n.who)+"</td><td>"+esc(d8(n.date))+"</td></tr>"}).join("")+"</table>":"")+
       "<div class='foot'>Avsurance internal. Not for distribution outside the agency.</div>";
   }
   function printIt(){var d=data();onepager(d);var old=document.title;document.title=(d.client||"Client")+" - Visit Debrief "+d8(d.date).replace(/\//g,"-");window.print();setTimeout(function(){document.title=old},500)}
 
+  $("addNeed").onclick=function(){addNeed();$("needs").lastChild.querySelector("input").focus()};
   $("addPerson").onclick=function(){addPerson();$("people").lastChild.querySelector("input").focus()};
   document.addEventListener("input",render);document.addEventListener("change",render);
   $("pdfNow").onclick=printIt;$("pdf").onclick=printIt;
@@ -273,8 +283,8 @@ add("NOTES",one(d.notes));add("WATCH",one(d.watch));
       "Client":d.client,"Location":d.base,"Visit date":d8(d.date),"Visit type":d.vtype,"Relayed by":d.by,
       "Operations":d.opsNames.join(", "),
       "People met":d.people.map(function(p){return p.name+(p.title?", "+p.title:"")+(p.role?" ("+p.role+")":"")}).join("\n"),
-      "Relationship":d.temp,"Meeting notes":d.notes,"Watch items":d.watch,"Opportunities":d.opps,
-      "Next step":[d.next,d.owner,d8(d.due)].filter(Boolean).join(", "),"Epic note":epicFinal()
+      "Overall relationship":d.temp,"Positive developments":d.pos,"Concerning developments":d.neg,"General information":d.gen,
+      "Needed from team":d.needs.map(function(n){return[n.what,n.who,d8(n.date)].filter(Boolean).join(" | ")}).join("\n"),"Epic note":epicFinal()
     };
     $("send").disabled=true;$("msg").textContent="Sending...";
     fetch(FORMSPREE,{method:"POST",headers:{"Accept":"application/json","Content-Type":"application/json"},body:JSON.stringify(payload)})
@@ -282,7 +292,7 @@ add("NOTES",one(d.notes));add("WATCH",one(d.watch));
       .catch(function(){$("msg").textContent="Didn't send. Check your connection and try again; nothing was lost.";$("send").disabled=false});
   };
 
-  $("date").value=new Date().toISOString().slice(0,10);addPerson();render();
+  $("date").value=new Date().toISOString().slice(0,10);addPerson();addNeed();render();
 })();
 </script>
 </body>
